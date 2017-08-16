@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SORTING_ALGORITHMS_SELECTION_SORT_H
+#define SORTING_ALGORITHMS_SELECTION_SORT_H
 
 #include "Sort.h"
 
@@ -24,3 +25,5 @@ public:
     }
 
 };
+
+#endif // define SORTING_ALGORITHMS_SELECTION_SORT_H

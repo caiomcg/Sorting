@@ -1,8 +1,8 @@
-#pragma once
+#ifndef SORTING_ALGORITHMS_SORT_H
+#define SORTING_ALGORITHMS_SORT_H
 
-#include <functional>
-
-#include <ctime>
+#include <functional> // Function Objects
+#include <ctime>      // Clock status
 
 template <typename T>
 class Sort {
@@ -33,3 +33,5 @@ public:
         return (final_time - start_time) / (double) CLOCKS_PER_SEC;
     }
 };
+
+#endif // define SORTING_ALGORITHMS_SORT_H

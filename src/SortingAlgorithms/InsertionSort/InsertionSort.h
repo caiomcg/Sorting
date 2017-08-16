@@ -1,7 +1,7 @@
-#pragma once
+#ifndef SORTING_ALGORITHMS_INSERTION_SORT_H
+#define SORTING_ALGORITHMS_INSERTION_SORT_H
 
 #include "Sort.h"
-#include <iostream>
 
 template <typename T>
 class InsertionSort : public Sort<T> {
@@ -24,3 +24,6 @@ public:
         this->stopTimer();
     }
 };
+
+
+#endif // define SORTING_ALGORITHMS_INSERTION_SORT_H
