@@ -80,6 +80,17 @@ A as the last argument indicates that all the algorithms should be tested
 $ ./bin/Sorting input.txt A
 ```
 
+## Generating test files
+Accompaning the sorting algorithms is a simple python implementation that generate a file with 'n' numbers randomized between
+0 and 1000.
+
+### Usage
+Invoke the script
+
+```sh
+$ python generate_random.py output.txt 10000 # The last argument indicate the amount of random numbers to dump
+```
+
 ## Contributors
 
 * Caio Marcelo Campoy Guedes <caiomcg@gmail.com>
