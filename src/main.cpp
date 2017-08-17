@@ -30,31 +30,63 @@
  * @author Caio Marcelo Campoy Guedes <caiomcg@gmail.com>
  */
 
-#include <iostream>
+#include <iostream> // C++ standart I/O
+#include <vector>   // STL Vector
 
-#include "SelectionSort.h"
-#include "InsertionSort.h"
+#include "SelectionSort.h" // Selection Sort
+#include "InsertionSort.h" // Insertion Sort
+
+/**
+ * @brief Diplay the software usage
+ */
+void usage (void) {
+    std::cout << "\033[1;37mNAME\033[0m" << std::endl;
+    std::cout << "        Sorting - Sorting algorithms written in C++." << std::endl;
+    std::cout << "\033[1;37mSYNOPSIS\033[0m" << std::endl;
+    std::cout << "        Sorting [INPUT_FILE] [ALGORITHM]" << std::endl;
+    std::cout << "\033[1;37mDESCRIPTION\033[0m" << std::endl;
+    std::cout << "        Sort a file with the specified sorting algorithm." << std::endl;
+    std::cout << "        [INPUT_FILE]" << std::endl;
+    std::cout << "            File to be sorted"  << std::endl;
+    std::cout << "        [ALGORITHM]" << std::endl;
+    std::cout << "            Sort with the specified algorith:"  << std::endl;
+    std::cout << "            S - Selection Sort"  << std::endl;
+    std::cout << "            I - Insertion Sort"  << std::endl;
+    std::cout << "            A - All algorithms"  << std::endl;
+    std::cout << "\033[1;37mEXIT STATUS\033[0m" << std::endl;
+    std::cout << "        0 - If ok" << std::endl;
+    std::cout << "        1 - If a problem occured" << std::endl;
+    std::cout << "\033[1;37mUSE EXAMPLE\033[0m" << std::endl;
+    std::cout << "        \033[1;35mSorting input.txt A\033[0m" << std::endl;
+}
+
 
 int main(int argc, char** argv) {
-    InsertionSort<int> selection_sort;
-    int arr[] = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 
-    std::cout << "Before selection: ";
-    for (int i = 0; i < 10; i++) {
-        std::cout << arr[i] << " ";
-    }
-    std::cout << "\n";
-
-    selection_sort.sort(arr, 10, [](int& first, int& last) -> bool {
-        return first > last ? true : false;
-    });
-
-    std::cout << "After selection: ";
-    for (int i = 0; i < 10; i++) {
-        std::cout << arr[i] << " ";
+    if (argc < 2) { // Check if the amount of parameters passed is correct
+        usage();    // Print the usage
+        return 1;   // Stop the process
     }
 
-    std::cout << "\nElapsed time: " << selection_sort.getElapsed() << "s" << std::endl;
-    std::cout << "\n";
-    return 0;
+    std::vector<Sort<int>*> sorting_algorithms; // Store the algorithms used
+
+    if (std::string(argv[2]) == "A") { // Check if should use all algorithms
+        sorting_algorithms.push_back(new SelectionSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+    } else if (std::string(argv[2]) == "S") { // Check if should use only Selection Sort
+        sorting_algorithms.push_back(new SelectionSort<int>{}); // Add the sorting algorithm to the vector 
+    } else if (std::string(argv[2]) == "I") { // Check if shoul use only Insertion Sort
+        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+    }
+
+    for (auto sort : sorting_algorithms) { // Iterate through the sorting algorithms
+        sort->test(argv[1], [](int& first, int& last) -> bool { // Invoke the test: Sorting + Outputting to file + Estimated time spent
+            return first > last ? true : false; // Sort from lowest to biggest
+        });
+        delete sort; // Dealloc the algorithm
+    }
+
+    sorting_algorithms.clear(); // Clear the vector;
+
+    return 0; // Correctly ends the process
 }
