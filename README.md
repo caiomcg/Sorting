@@ -1,6 +1,6 @@
 # Sorting
 
-This repository contains the implementation of various sorting algorithms. Each algorithm is defined as a child of 'sort'
+This repository contains the implementation of various sorting algorithms. Each algorithm is defined as a child of 'sort',
 which defines time related features.
 
 ## Requirements
@@ -29,7 +29,7 @@ $ make test
 Make Test will call the software with multiple test cases.
 **To see the results and the input files look at the samples directory.**
 
-Input files are simple txt containing integer numbers. Output files follow the pattern: input_name + algorithm + out.
+Input files are simple .txt containing integer numbers. Output files follow the pattern: input_name + algorithm + out.
 
 Eg.: Input: input1.txt; Output: input1.selection.out
 
@@ -41,7 +41,7 @@ $ make cleantest
 ```
 
 ### Custom test
-Custom test can be done by calling the executable directly. By typing Sorting you will be prompted with the options
+Custom tests can be done by calling the executable directly. By typing Sorting, you will be prompted with the options
 supported by the software. 
 
 ```sh
@@ -81,7 +81,7 @@ $ ./bin/Sorting input.txt A
 ```
 
 ## Generating test files
-Accompaning the sorting algorithms is a simple python implementation that generate a file with 'n' numbers randomized between
+Accompaning the sorting algorithms, is a simple python implementation that generate a file with 'n' numbers randomized between
 0 and 1000.
 
 ### Usage
