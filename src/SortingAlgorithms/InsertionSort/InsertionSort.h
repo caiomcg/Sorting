@@ -35,7 +35,7 @@
 #ifndef SORTING_ALGORITHMS_INSERTION_SORT_H
 #define SORTING_ALGORITHMS_INSERTION_SORT_H
 
-#include "Sort.h"
+#include "Sort.h" // Sort base class
 
 template <typename T> // Defines the class as a template
 class InsertionSort : public Sort<T> { // Defines the class
@@ -66,6 +66,32 @@ public:
         }
 
         this->stopTimer(); // Stores the time at the end of the sorting
+    }
+    /**
+     * @brief Test the algorithm
+     * 
+     * @param input Input to be sorted
+     * @param order_function The function that defines how the ordering will be done
+     */
+    void test(std::string input, std::function<bool(T& first, T& last)> order_function) {
+        int* data = nullptr; // Pointer to the data fetched from the input
+        int data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
+        if (data_size == 0) { // If no data on the file we stop the process
+            if (data != nullptr) delete data; // Free the data buffer
+            std::clog << "\033[1;30mInvalid input. Terminating\033[0m" << std::endl;
+            return; // Stop the test
+        }
+        
+        input.erase(input.find('.', 1)); // Format the output
+        std::clog << "\033[1;37mInsertion Sort:\033[0m" << std::endl;
+        std::clog << "\033[1;35m\tOutputing to: " << input + ".insertion.out\033[0m" << std::endl;
+        
+        this->sort(data, data_size, order_function); // Sort the data
+        
+        std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
+
+        this->file_handler_->writeToOutput(input + ".insertion.out", data, data_size); // Write to the output file
+        delete data; // Free the data
     }
 };
 
