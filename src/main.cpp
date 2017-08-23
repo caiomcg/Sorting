@@ -35,6 +35,9 @@
 
 #include "SelectionSort.h" // Selection Sort
 #include "InsertionSort.h" // Insertion Sort
+#include "MergeSort.h"     // Merge Sort
+#include "QuickSort.h"     // Quick Sort
+#include "HeapSort.h"      // Heap Sort
 
 /**
  * @brief Diplay the software usage
@@ -52,6 +55,9 @@ void usage (void) {
     std::cout << "            Sort with the specified algorith:"  << std::endl;
     std::cout << "            S - Selection Sort"  << std::endl;
     std::cout << "            I - Insertion Sort"  << std::endl;
+    std::cout << "            M - Merge Sort"  << std::endl;
+    std::cout << "            Q - Quick Sort"  << std::endl;
+    std::cout << "            H - Heap Sort"  << std::endl;
     std::cout << "            A - All algorithms"  << std::endl;
     std::cout << "\033[1;37mEXIT STATUS\033[0m" << std::endl;
     std::cout << "        0 - If ok" << std::endl;
@@ -70,12 +76,19 @@ int main(int argc, char** argv) {
 
     std::vector<Sort<int>*> sorting_algorithms; // Store the algorithms used
 
-    if (std::string(argv[2]) == "A") { // Check if should use all algorithms
-        sorting_algorithms.push_back(new SelectionSort<int>{}); // Add the sorting algorithm to the vector
-        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
-    } else if (std::string(argv[2]) == "S") { // Check if should use only Selection Sort
+    if (std::string(argv[2]) == "S" || std::string(argv[2]) == "A") { // Check if should use Selection Sort
         sorting_algorithms.push_back(new SelectionSort<int>{}); // Add the sorting algorithm to the vector 
-    } else if (std::string(argv[2]) == "I") { // Check if shoul use only Insertion Sort
+    }
+    if (std::string(argv[2]) == "I"  || std::string(argv[2]) == "A") { // Check if shoul use Insertion Sort
+        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+    }
+    if (std::string(argv[2]) == "Q"  || std::string(argv[2]) == "A") { // Check if shoul use Quick Sort
+        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+    }
+    if (std::string(argv[2]) == "M"  || std::string(argv[2]) == "A") { // Check if shoul use Merge Sort
+        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+    }
+    if (std::string(argv[2]) == "H"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
         sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
     }
 
