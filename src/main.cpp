@@ -83,13 +83,13 @@ int main(int argc, char** argv) {
         sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "Q"  || std::string(argv[2]) == "A") { // Check if shoul use Quick Sort
-        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new QuickSort<int>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "M"  || std::string(argv[2]) == "A") { // Check if shoul use Merge Sort
-        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new MergeSort<int>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "H"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
-        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new HeapSort<int>{}); // Add the sorting algorithm to the vector
     }
 
     for (auto sort : sorting_algorithms) { // Iterate through the sorting algorithms

@@ -46,7 +46,7 @@
      MergeSort() {}
  
      /**
-      * @brief Define how Insertion Sort behaves
+      * @brief Define how Merge Sort behaves
       * 
       * @param arr The array to be sorted
       * @param size The size of the array
@@ -83,14 +83,14 @@
          }
          
          input.erase(input.find('.', 1)); // Format the output
-         std::clog << "\033[1;37mInsertion Sort:\033[0m" << std::endl;
-         std::clog << "\033[1;35m\tOutputing to: " << input + ".insertion.out\033[0m" << std::endl;
+         std::clog << "\033[1;37mMerge Sort:\033[0m" << std::endl;
+         std::clog << "\033[1;35m\tOutputing to: " << input + ".merge.out\033[0m" << std::endl;
          
          this->sort(data, data_size, order_function); // Sort the data
          
          std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
  
-         this->file_handler_->writeToOutput(input + ".insertion.out", data, data_size); // Write to the output file
+         this->file_handler_->writeToOutput(input + ".merge.out", data, data_size); // Write to the output file
          delete data; // Free the data
      }
  };

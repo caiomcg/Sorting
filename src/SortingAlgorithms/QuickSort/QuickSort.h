@@ -37,63 +37,98 @@
  
  #include "Sort.h" // Sort base class
  
+ #include <algorithm>
+
  template <typename T> // Defines the class as a template
  class QuickSort : public Sort<T> { // Defines the class
  public:
-     /**
-      * @brief Default constructor
-      */
-     QuickSort() {}
- 
-     /**
-      * @brief Define how Insertion Sort behaves
-      * 
-      * @param arr The array to be sorted
-      * @param size The size of the array
-      * @param order_function The function that defines how the ordering will be done
-      */
-     void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
-         this->startTimer(); // Stores the start time of the sorting
- 
-         for (int i = 1, j = 0; i < size; i++) { // Iterate through the array
-             T current_value = arr[i]; // Store the base value to be compared
-         
-             for (j = i - 1; j >= 0 && order_function(arr[j], current_value); j--) { // Do a reverse search and based on the user decision sort the array
-                 arr[j + 1] = arr[j]; // Shift the values
-             }
- 
-             arr[j + 1] = current_value; // Add the base value
-         }
- 
-         this->stopTimer(); // Stores the time at the end of the sorting
-     }
-     /**
-      * @brief Test the algorithm
-      * 
-      * @param input Input to be sorted
-      * @param order_function The function that defines how the ordering will be done
-      */
-     void test(std::string input, std::function<bool(T& first, T& last)> order_function) {
-         int* data = nullptr; // Pointer to the data fetched from the input
-         int data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
-         if (data_size == 0) { // If no data on the file we stop the process
-             if (data != nullptr) delete data; // Free the data buffer
-             std::clog << "\033[1;30mInvalid input. Terminating\033[0m" << std::endl;
-             return; // Stop the test
-         }
-         
-         input.erase(input.find('.', 1)); // Format the output
-         std::clog << "\033[1;37mInsertion Sort:\033[0m" << std::endl;
-         std::clog << "\033[1;35m\tOutputing to: " << input + ".insertion.out\033[0m" << std::endl;
-         
-         this->sort(data, data_size, order_function); // Sort the data
-         
-         std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
- 
-         this->file_handler_->writeToOutput(input + ".insertion.out", data, data_size); // Write to the output file
-         delete data; // Free the data
-     }
- };
+    /**
+    * @brief Default constructor
+    */
+    QuickSort() {}
+
+    /**
+     * @brief Rearrange the elements of the array
+     * @details Arrange elements bigger than the pivot to the right and smaller to the left
+     * 
+     * @param data Data to be arranged
+     * @param initial Start position of the array
+     * @param final Final position of the array
+     * @return The new split position
+     */
+    int partition(int* data, int initial, int final) {
+        int pivot = data[(initial + final) / 2]; // Use center pivot
+
+        while (initial <= final) { // While 
+            while (data[initial] < pivot) { // Search for an element bigger than the pivot
+                  initial++; // Move the initial reference
+            }
+            while (data[final] > pivot) { // Search for an element smaller than the pivot
+                  final--; // Move the final reference
+            }
+            if (initial <= final) { // If we have not passed the reference order
+                  this->swap(data[initial], data[final]); // Swap the references
+                  initial++; // Increment to the next reference
+                  final--; // Decrement to the next reference
+            }
+        }
+        return initial; // The new partition point
+    }
+
+    /**
+     * @brief Quick Sort implementation
+     * 
+     * @param data Array to be sorted
+     * @param initial First position of the array
+     * @param final Final position of the array
+     */
+    void quickSort(int* data, int initial, int final) {
+        if (initial < final) { // As long as we not reach one element
+            int partition = this->partition(data, initial, final); // Call partition and get next recursion point
+            this->quickSort(data, initial, partition - 1); // Call quicksort for the left partition
+            this->quickSort(data, partition, final); // Call quicksort for the right partition
+        }
+    }
+
+    /**
+    * @brief Define how Quick Sort behaves
+    * 
+    * @param arr The array to be sorted
+    * @param size The size of the array
+    * @param order_function The function that defines how the ordering will be done
+    */
+    void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
+        this->startTimer(); // Stores the start time of the sorting
+        this->quickSort(arr, 0, size); // Call the sorting algorithm
+        this->stopTimer(); // Stores the time at the end of the sorting
+    }
+    /**
+    * @brief Test the algorithm
+    * 
+    * @param input Input to be sorted
+    * @param order_function The function that defines how the ordering will be done
+    */
+    void test(std::string input, std::function<bool(T& first, T& last)> order_function) {
+        int* data = nullptr; // Pointer to the data fetched from the input
+        int data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
+        if (data_size == 0) { // If no data on the file we stop the process
+            if (data != nullptr) delete data; // Free the data buffer
+            std::clog << "\033[1;30mInvalid input. Terminating\033[0m" << std::endl;
+            return; // Stop the test
+        }
+        
+        input.erase(input.find('.', 1)); // Format the output
+        std::clog << "\033[1;37mQuick Sort:\033[0m" << std::endl;
+        std::clog << "\033[1;35m\tOutputing to: " << input + ".quick.out\033[0m" << std::endl;
+        
+        this->sort(data, data_size, order_function); // Sort the data
+        
+        std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
+
+        this->file_handler_->writeToOutput(input + ".quick.out", data, data_size); // Write to the output file
+        delete data; // Free the data
+    }
+};
  
  
  #endif // define SORTING_ALGORITHMS_QUICK_SORT_H

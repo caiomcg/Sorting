@@ -46,7 +46,7 @@ public:
     HeapSort() {}
 
     /**
-    * @brief Define how Insertion Sort behaves
+    * @brief Define how Heap Sort behaves
     * 
     * @param arr The array to be sorted
     * @param size The size of the array
@@ -84,14 +84,14 @@ public:
         }
         
         input.erase(input.find('.', 1)); // Format the output
-        std::clog << "\033[1;37mInsertion Sort:\033[0m" << std::endl;
-        std::clog << "\033[1;35m\tOutputing to: " << input + ".insertion.out\033[0m" << std::endl;
+        std::clog << "\033[1;37mHeap Sort:\033[0m" << std::endl;
+        std::clog << "\033[1;35m\tOutputing to: " << input + ".heap.out\033[0m" << std::endl;
         
         this->sort(data, data_size, order_function); // Sort the data
         
         std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
 
-        this->file_handler_->writeToOutput(input + ".insertion.out", data, data_size); // Write to the output file
+        this->file_handler_->writeToOutput(input + ".heap.out", data, data_size); // Write to the output file
         delete data; // Free the data
     }
 };
