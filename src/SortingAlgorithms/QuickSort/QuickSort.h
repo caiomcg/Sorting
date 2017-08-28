@@ -56,8 +56,8 @@
      * @param final Final position of the array
      * @return The new split position
      */
-    int partition(int* data, int initial, int final) {
-        int pivot = data[(initial + final) / 2]; // Use center pivot
+    int partition(T* data, int initial, int final) {
+        T pivot = data[(initial + final) / 2]; // Use center pivot
 
         while (initial <= final) { // While 
             while (data[initial] < pivot) { // Search for an element bigger than the pivot
@@ -82,7 +82,7 @@
      * @param initial First position of the array
      * @param final Final position of the array
      */
-    void quickSort(int* data, int initial, int final) {
+    void quickSort(T* data, int initial, int final) {
         if (initial < final) { // As long as we not reach one element
             int partition = this->partition(data, initial, final); // Call partition and get next recursion point
             this->quickSort(data, initial, partition - 1); // Call quicksort for the left partition

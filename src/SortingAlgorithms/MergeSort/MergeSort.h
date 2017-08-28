@@ -44,6 +44,62 @@
       * @brief Default constructor
       */
      MergeSort() {}
+
+     void merge(T* arr, int initial, int mid_point, int final) {
+        int left_reference = 0;
+        int right_reference = 0;
+        int merge_reference = initial;
+
+        int left_size = mid_point - initial + 1;
+        int right_size = final - mid_point;
+
+        T* left  = new T[left_size];
+        T* right = new T[right_size];
+
+        for (int i = 0; i < left_size; i++) {
+            left[i] = arr[initial + i];
+        }
+
+        for (int i = 0; i < right_size; i++) {
+            right[i] = arr[mid_point + 1 + i];
+        }
+
+        while (left_reference < left_size && right_reference < right_size) {
+            if (left[left_reference] <= right[right_reference]) {
+                arr[merge_reference] = left[left_reference];
+                left_reference++;
+            } else {
+                arr[merge_reference] = right[right_reference];
+                right_reference++;
+            }
+            merge_reference++;
+        }
+
+        while (left_reference < left_size) {
+            arr[merge_reference] = left[left_reference];
+            left_reference++;
+            merge_reference++;
+        }
+     
+        while (right_reference < right_size) {
+            arr[merge_reference] = right[right_reference];
+            right_reference++;
+            merge_reference++;
+        }
+
+        delete left;
+        delete right;
+    }
+
+     void mergeSort(T* arr, int initial, int final) {
+        if (initial < final) {
+            int mid_point = (initial + final) / 2;
+        
+            mergeSort(arr, initial, mid_point);
+            mergeSort(arr, mid_point+1, final);
+            merge(arr, initial, mid_point, final);
+        }
+     }
  
      /**
       * @brief Define how Merge Sort behaves
@@ -53,19 +109,9 @@
       * @param order_function The function that defines how the ordering will be done
       */
      void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
-         this->startTimer(); // Stores the start time of the sorting
- 
-         for (int i = 1, j = 0; i < size; i++) { // Iterate through the array
-             T current_value = arr[i]; // Store the base value to be compared
-         
-             for (j = i - 1; j >= 0 && order_function(arr[j], current_value); j--) { // Do a reverse search and based on the user decision sort the array
-                 arr[j + 1] = arr[j]; // Shift the values
-             }
- 
-             arr[j + 1] = current_value; // Add the base value
-         }
- 
-         this->stopTimer(); // Stores the time at the end of the sorting
+        this->startTimer(); // Stores the start time of the sorting
+        this->mergeSort(arr, 0, size);
+        this->stopTimer(); // Stores the time at the end of the sorting
      }
      /**
       * @brief Test the algorithm
