@@ -32,114 +32,130 @@
  * @author Caio Marcelo Campoy Guedes <caiomcg@gmail.com>
  */
 
- #ifndef SORTING_ALGORITHMS_MERGE_SORT_H
- #define SORTING_ALGORITHMS_MERGE_SORT_H
+#ifndef SORTING_ALGORITHMS_MERGE_SORT_H
+#define SORTING_ALGORITHMS_MERGE_SORT_H
+
+#include "Sort.h" // Sort base class
  
- #include "Sort.h" // Sort base class
- 
- template <typename T> // Defines the class as a template
- class MergeSort : public Sort<T> { // Defines the class
- public:
-     /**
-      * @brief Default constructor
-      */
+template <typename T> // Defines the class as a template
+class MergeSort : public Sort<T> { // Defines the class
+public:
+    /**
+    * @brief Default constructor
+    */
      MergeSort() {}
 
-     void merge(T* arr, int initial, int mid_point, int final) {
-        int left_reference = 0;
-        int right_reference = 0;
-        int merge_reference = initial;
+    /**
+    * @brief Merge the array
+    * 
+    * @param arr Array to be merged
+    * @param initial Initial array position
+    * @param mid_point Merge mid point for the partition
+    * @param final Final array position
+    */
+    void merge(T* arr, int initial, int mid_point, int final) {
+        int left_reference = 0;        // Reference to the elements of the array
+        int right_reference = 0;       // Reference to the elements of the array
+        int merge_reference = initial; // Reference to the elements of the array 
 
         int left_size = mid_point - initial + 1;
         int right_size = final - mid_point;
 
-        T* left  = new T[left_size];
-        T* right = new T[right_size];
+        T* left  = new T[left_size];  // Create temporary arrays
+        T* right = new T[right_size]; // Create temporary arrays
 
-        for (int i = 0; i < left_size; i++) {
+        for (int i = 0; i < left_size; i++) { // Copy the left side
             left[i] = arr[initial + i];
         }
 
-        for (int i = 0; i < right_size; i++) {
+        for (int i = 0; i < right_size; i++) { // Copy the right side
             right[i] = arr[mid_point + 1 + i];
         }
 
-        while (left_reference < left_size && right_reference < right_size) {
-            if (left[left_reference] <= right[right_reference]) {
+        while (left_reference < left_size && right_reference < right_size) {  // Proceed until we reach the end of one of the arrays
+            if (left[left_reference] <= right[right_reference]) { // if data in the left position is smaller we move it to the mid point reference
                 arr[merge_reference] = left[left_reference];
                 left_reference++;
             } else {
-                arr[merge_reference] = right[right_reference];
+                arr[merge_reference] = right[right_reference]; // Right reference is smaller
                 right_reference++;
             }
             merge_reference++;
         }
 
-        while (left_reference < left_size) {
+        while (left_reference < left_size) { // Empty all remaining numbers
             arr[merge_reference] = left[left_reference];
             left_reference++;
             merge_reference++;
         }
-     
-        while (right_reference < right_size) {
+        
+        while (right_reference < right_size) { // Empty all remaining numbers
             arr[merge_reference] = right[right_reference];
             right_reference++;
             merge_reference++;
         }
 
-        delete left;
-        delete right;
+        delete left;  // Free the data
+        delete right; // Free the data
     }
 
-     void mergeSort(T* arr, int initial, int final) {
-        if (initial < final) {
-            int mid_point = (initial + final) / 2;
+    /**
+     * @brief Call Merge Sort recursively
+     * @details Split the array until only one element is present on the last recursion
+     * 
+     * @param arr Data to be sorted
+     * @param initial Initial position of the array
+     * @param final Final position of the array
+     */
+    void mergeSort(T* arr, int initial, int final) {
+        if (initial < final) { // As long as we do not have only one element execute
+            int mid_point = (initial + final) / 2; // Calculate the mid point
         
-            mergeSort(arr, initial, mid_point);
-            mergeSort(arr, mid_point+1, final);
-            merge(arr, initial, mid_point, final);
+            mergeSort(arr, initial, mid_point); // Call Merge Sort to the left side
+            mergeSort(arr, mid_point+1, final); // Call Merge Sort to the right side
+            merge(arr, initial, mid_point, final); // Merge the array
         }
      }
  
-     /**
-      * @brief Define how Merge Sort behaves
-      * 
-      * @param arr The array to be sorted
-      * @param size The size of the array
-      * @param order_function The function that defines how the ordering will be done
-      */
-     void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
+    /**
+    * @brief Define how Merge Sort behaves
+    * 
+    * @param arr The array to be sorted
+    * @param size The size of the array
+    * @param order_function The function that defines how the ordering will be done
+    */
+    void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
         this->startTimer(); // Stores the start time of the sorting
         this->mergeSort(arr, 0, size);
         this->stopTimer(); // Stores the time at the end of the sorting
-     }
-     /**
-      * @brief Test the algorithm
-      * 
-      * @param input Input to be sorted
-      * @param order_function The function that defines how the ordering will be done
-      */
-     void test(std::string input, std::function<bool(T& first, T& last)> order_function) {
-         int* data = nullptr; // Pointer to the data fetched from the input
-         int data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
-         if (data_size == 0) { // If no data on the file we stop the process
-             if (data != nullptr) delete data; // Free the data buffer
-             std::clog << "\033[1;30mInvalid input. Terminating\033[0m" << std::endl;
-             return; // Stop the test
-         }
-         
-         input.erase(input.find('.', 1)); // Format the output
-         std::clog << "\033[1;37mMerge Sort:\033[0m" << std::endl;
-         std::clog << "\033[1;35m\tOutputing to: " << input + ".merge.out\033[0m" << std::endl;
-         
-         this->sort(data, data_size, order_function); // Sort the data
-         
-         std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
- 
-         this->file_handler_->writeToOutput(input + ".merge.out", data, data_size); // Write to the output file
-         delete data; // Free the data
-     }
- };
+    }
+    /**
+    * @brief Test the algorithm
+    * 
+    * @param input Input to be sorted
+    * @param order_function The function that defines how the ordering will be done
+    */
+    void test(std::string input, std::function<bool(T& first, T& last)> order_function) {
+        int* data = nullptr; // Pointer to the data fetched from the input
+        int data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
+        if (data_size == 0) { // If no data on the file we stop the process
+            if (data != nullptr) delete data; // Free the data buffer
+            std::clog << "\033[1;30mInvalid input. Terminating\033[0m" << std::endl;
+            return; // Stop the test
+        }
+        
+        input.erase(input.find('.', 1)); // Format the output
+        std::clog << "\033[1;37mMerge Sort:\033[0m" << std::endl;
+        std::clog << "\033[1;35m\tOutputing to: " << input + ".merge.out\033[0m" << std::endl;
+        
+        this->sort(data, data_size, order_function); // Sort the data
+        
+        std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
+
+        this->file_handler_->writeToOutput(input + ".merge.out", data, data_size); // Write to the output file
+        delete data; // Free the data
+    }
+};
  
  
  #endif // define SORTING_ALGORITHMS_MERGE_SORT_H
