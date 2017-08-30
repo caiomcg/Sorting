@@ -45,6 +45,31 @@ public:
     */
     HeapSort() {}
 
+    void maxHeapify(T* arr, int size, int index) {
+        int largest = index; // Store the largest element index(Root by default)
+        int left    = (index << 1) + 1; // Calculate the location of the left child on the array
+        int right   = (index << 1) + 2; // Calculate the location of the right child on the array
+
+        if (left < size && arr[left] > arr[largest]) { // Check if the left side child is larger than the current largest and if
+                                                       // we have not passed through the array bounds
+            largest = left; // Store the new largest element index
+        }
+        if (right < size && arr[right] > arr[largest]) { // Check if the right side child is larger than the current largest and if
+                                                         // we have not passed through the array bounds
+            largest = right; // Store the new largest element index
+        }
+        if (largest != index) { // If the largest is not the root
+            this->swap(arr[index], arr[largest]); // Swap the elements
+            this->maxHeapify(arr, size, largest); // Call maxHeapify recursively for the current largest
+        }
+    }
+
+    void buildMaxHeap(T* arr, int size) {
+        for (int i = size / 2; i >= 0; i--) { // Iterate through the nodes of the heap
+            this->maxHeapify(arr, size, i); // Apply MAX HEAPIFY on every node
+        }
+    }
+
     /**
     * @brief Define how Heap Sort behaves
     * 
@@ -55,14 +80,11 @@ public:
     void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
         this->startTimer(); // Stores the start time of the sorting
 
-        for (int i = 1, j = 0; i < size; i++) { // Iterate through the array
-            T current_value = arr[i]; // Store the base value to be compared
-        
-            for (j = i - 1; j >= 0 && order_function(arr[j], current_value); j--) { // Do a reverse search and based on the user decision sort the array
-                arr[j + 1] = arr[j]; // Shift the values
-            }
+        this->buildMaxHeap(arr, size); // Construct the heap tree
 
-            arr[j + 1] = current_value; // Add the base value
+        for (int i = size - 1; i >= 0; i--) { // Iterate through the nodes
+            this->swap(arr[0], arr[i]); // Order the elements as the root is sorted from biggest to smallest
+            this->maxHeapify(arr, i, 0); // Reorder at every element shift
         }
 
         this->stopTimer(); // Stores the time at the end of the sorting
