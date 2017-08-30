@@ -45,7 +45,14 @@ public:
     */
     HeapSort() {}
 
-    void maxHeapify(T* arr, int size, int index) {
+    /**
+     * @brief Keep the tree as a max heap
+     * 
+     * @param arr Array to be analysed
+     * @param size The size of the array
+     * @param index The root index
+     */
+    void MAX_HEAPIFY(T* arr, int size, int index) {
         int largest = index; // Store the largest element index(Root by default)
         int left    = (index << 1) + 1; // Calculate the location of the left child on the array
         int right   = (index << 1) + 2; // Calculate the location of the right child on the array
@@ -60,35 +67,42 @@ public:
         }
         if (largest != index) { // If the largest is not the root
             this->swap(arr[index], arr[largest]); // Swap the elements
-            this->maxHeapify(arr, size, largest); // Call maxHeapify recursively for the current largest
+            this->MAX_HEAPIFY(arr, size, largest); // Call MAX_HEAPIFY recursively for the current largest
         }
     }
 
-    void buildMaxHeap(T* arr, int size) {
+    /**
+     * @brief Create a max heap tree for an array
+     * 
+     * @param arr The array to be ordered
+     * @param size The size of the array
+     */
+    void BUILD_MAX_HEAP(T* arr, int size) {
         for (int i = size / 2; i >= 0; i--) { // Iterate through the nodes of the heap
-            this->maxHeapify(arr, size, i); // Apply MAX HEAPIFY on every node
+            this->MAX_HEAPIFY(arr, size, i); // Apply MAX HEAPIFY on every node
         }
     }
 
     /**
     * @brief Define how Heap Sort behaves
     * 
-    * @param arr The array to be sorted
+    * @param arr The array to be sorteds
     * @param size The size of the array
     * @param order_function The function that defines how the ordering will be done
     */
     void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
         this->startTimer(); // Stores the start time of the sorting
 
-        this->buildMaxHeap(arr, size); // Construct the heap tree
+        this->BUILD_MAX_HEAP(arr, size); // Construct the heap tree
 
         for (int i = size - 1; i >= 0; i--) { // Iterate through the nodes
             this->swap(arr[0], arr[i]); // Order the elements as the root is sorted from biggest to smallest
-            this->maxHeapify(arr, i, 0); // Reorder at every element shift
+            this->MAX_HEAPIFY(arr, i, 0); // Reorder at every element shift
         }
 
         this->stopTimer(); // Stores the time at the end of the sorting
     }
+    
     /**
     * @brief Test the algorithm
     * 
