@@ -58,6 +58,9 @@ DESCRIPTION
             Sort with the specified algorith:
             S - Selection Sort
             I - Insertion Sort
+            M - Merge Sort
+            Q - Quick Sort
+            H - Heap Sort
             A - All algorithms
 EXIT STATUS
         0 - If ok
