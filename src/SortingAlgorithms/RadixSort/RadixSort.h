@@ -46,6 +46,59 @@ public:
     RadixSort() {}
 
     /**
+     * @brief Search for the biggest element in the array
+     * 
+     * @param arr Array to be searched
+     * @param size Size of the array
+     * 
+     * @return The biggest element
+     */
+     int findMaxNumber(T* arr, const unsigned& size) {
+        T max = arr[0]; // Store the Maximum number
+
+        for (unsigned i = 1; i < size; i++) { // Iterate through the elements
+            if (max < arr[i]) { // Chekc if there is a bigger one
+                max = arr[i]; // Add it as max
+            }
+        }
+        return max; // Return the maximum number
+    }
+
+    void radixSort(T* arr, const unsigned& size, T max_num) {
+        int position = 1; // through the least significant digit
+
+        T* counterArray = nullptr; // Array with element counting(by significant digit)
+        T* sorted = new T[size](); // Sorted Array
+        
+
+        while (max_num / position > 0) { // While we have not reached the most significant digit
+            counterArray = new T[10](); // Initialize the array zeroed
+
+            for (int i = 0; i < size; i++) {
+                counterArray[(arr[i] / position) % 10] += 1; // For each significant element, increment the position with the digit
+            }
+
+            for (int i = 1; i < 10; i++) {
+                counterArray[i] += counterArray[i - 1]; // Add next to previous sum
+            }
+
+            for (int i = size - 1; i >= 0; i--){
+                counterArray[(arr[i] / position) % 10] -= 1; // Decrement the position
+                sorted[counterArray[(arr[i] / position) % 10]] = arr[i]; // Assigned the element to its new position
+            }
+
+            for (int i = 0; i < size; i++) {
+                arr[i] = sorted[i]; // Copy to the original array
+            }
+            
+            position *= 10; // Pick a new digit
+            delete counterArray; // Delete the counter array
+        }
+ 
+        delete sorted; // Delete the sorted array
+    }
+
+    /**
     * @brief Define how Heap Sort behaves
     * 
     * @param arr The array to be sorteds
@@ -53,10 +106,11 @@ public:
     * @param order_function The function that defines how the ordering will be done
     */
     void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
-   
+        T max = this->findMaxNumber(arr, size); // Find the biggest number in the array(We do not consider this part of the sorting algorithm)        
+
         this->startTimer(); // Stores the start time of the sorting
 
-        //TODO: Implement Radix
+        this->radixSort(arr, size, max);
 
         this->stopTimer(); // Stores the time at the end of the sorting
     }
