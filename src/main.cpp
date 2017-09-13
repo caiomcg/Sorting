@@ -38,6 +38,8 @@
 #include "MergeSort.h"     // Merge Sort
 #include "QuickSort.h"     // Quick Sort
 #include "HeapSort.h"      // Heap Sort
+#include "CountingSort.h"  // Counting Sort
+#include "RadixSort.h"     // Radix Sort
 
 /**
  * @brief Diplay the software usage
@@ -58,6 +60,8 @@ void usage (void) {
     std::cout << "            M - Merge Sort"  << std::endl;
     std::cout << "            Q - Quick Sort"  << std::endl;
     std::cout << "            H - Heap Sort"  << std::endl;
+    std::cout << "            C - Counting Sort"  << std::endl;
+    std::cout << "            R - Radix Sort"  << std::endl;
     std::cout << "            A - All algorithms"  << std::endl;
     std::cout << "\033[1;37mEXIT STATUS\033[0m" << std::endl;
     std::cout << "        0 - If ok" << std::endl;
@@ -90,6 +94,12 @@ int main(int argc, char** argv) {
     }
     if (std::string(argv[2]) == "H"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
         sorting_algorithms.push_back(new HeapSort<int>{}); // Add the sorting algorithm to the vector
+    }
+    if (std::string(argv[2]) == "C"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
+        sorting_algorithms.push_back(new CountingSort<int>{}); // Add the sorting algorithm to the vector
+    }
+    if (std::string(argv[2]) == "R"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
+        sorting_algorithms.push_back(new RadixSort<int>{}); // Add the sorting algorithm to the vector
     }
 
     for (auto sort : sorting_algorithms) { // Iterate through the sorting algorithms

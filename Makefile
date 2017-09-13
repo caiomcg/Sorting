@@ -48,8 +48,10 @@ test:
 	@./bin/Sorting ./samples/input2.txt A
 	@echo "${B}Testing with 1000 elements${N}"
 	@./bin/Sorting ./samples/input3.txt A
-	@echo "${B}Testing with 100000 elements${N}"
+	@echo "${B}Testing with 10000 elements${N}"
 	@./bin/Sorting ./samples/input4.txt A
+	@echo "${B}Testing with 100000 elements${N}"
+	@./bin/Sorting ./samples/input5.txt A
 
 cleantest:
 	@echo "${R}Removing test results ${N}"; rm ./samples/*.out
