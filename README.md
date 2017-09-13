@@ -61,6 +61,8 @@ DESCRIPTION
             M - Merge Sort
             Q - Quick Sort
             H - Heap Sort
+            C - Counting Sort
+            R - Radix Sort
             A - All algorithms
 EXIT STATUS
         0 - If ok
@@ -85,7 +87,7 @@ $ ./bin/Sorting input.txt A
 
 ## Generating test files
 Accompaning the sorting algorithms, is a simple python implementation that generate a file with 'n' numbers randomized between
-0 and 1000.
+1 and 1000.
 
 ### Usage
 Invoke the script
