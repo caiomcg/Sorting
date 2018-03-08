@@ -78,32 +78,32 @@ int main(int argc, char** argv) {
         return 1;   // Stop the process
     }
 
-    std::vector<Sort<int>*> sorting_algorithms; // Store the algorithms used
+    std::vector<Sort<long>*> sorting_algorithms; // Store the algorithms used
 
     if (std::string(argv[2]) == "S" || std::string(argv[2]) == "A") { // Check if should use Selection Sort
-        sorting_algorithms.push_back(new SelectionSort<int>{}); // Add the sorting algorithm to the vector 
+        sorting_algorithms.push_back(new SelectionSort<long>{}); // Add the sorting algorithm to the vector 
     }
     if (std::string(argv[2]) == "I"  || std::string(argv[2]) == "A") { // Check if shoul use Insertion Sort
-        sorting_algorithms.push_back(new InsertionSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new InsertionSort<long>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "Q"  || std::string(argv[2]) == "A") { // Check if shoul use Quick Sort
-        sorting_algorithms.push_back(new QuickSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new QuickSort<long>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "M"  || std::string(argv[2]) == "A") { // Check if shoul use Merge Sort
-        sorting_algorithms.push_back(new MergeSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new MergeSort<long>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "H"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
-        sorting_algorithms.push_back(new HeapSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new HeapSort<long>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "C"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
-        sorting_algorithms.push_back(new CountingSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new CountingSort<long>{}); // Add the sorting algorithm to the vector
     }
     if (std::string(argv[2]) == "R"  || std::string(argv[2]) == "A") { // Check if shoul use Heap Sort
-        sorting_algorithms.push_back(new RadixSort<int>{}); // Add the sorting algorithm to the vector
+        sorting_algorithms.push_back(new RadixSort<long>{}); // Add the sorting algorithm to the vector
     }
 
     for (auto sort : sorting_algorithms) { // Iterate through the sorting algorithms
-        sort->test(argv[1], [](int& first, int& last) -> bool { // Invoke the test: Sorting + Outputting to file + Estimated time spent
+        sort->test(argv[1], [](long& first, long& last) -> bool { // Invoke the test: Sorting + Outputting to file + Estimated time spent
             return first > last ? true : false; // Sort from lowest to biggest
         });
         delete sort; // Dealloc the algorithm

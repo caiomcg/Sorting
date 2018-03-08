@@ -53,13 +53,13 @@ public:
     * @param mid_point Merge mid point for the partition
     * @param final Final array position
     */
-    void merge(T* arr, int initial, int mid_point, int final) {
+    void merge(T* arr, int initial, int mid_point, int final_chunck) {
         int left_reference = 0;        // Reference to the elements of the array
         int right_reference = 0;       // Reference to the elements of the array
         int merge_reference = initial; // Reference to the elements of the array 
 
         int left_size = mid_point - initial + 1;
-        int right_size = final - mid_point;
+        int right_size = final_chunck - mid_point;
 
         T* left  = new T[left_size];  // Create temporary arrays
         T* right = new T[right_size]; // Create temporary arrays
@@ -105,15 +105,15 @@ public:
      * 
      * @param arr Data to be sorted
      * @param initial Initial position of the array
-     * @param final Final position of the array
+     * @param final_chunck Final position of the array
      */
-    void mergeSort(T* arr, int initial, int final) {
-        if (initial < final) { // As long as we do not have only one element execute
-            int mid_point = (initial + final) / 2; // Calculate the mid point
+    void mergeSort(T* arr, int initial, int final_chunck) {
+        if (initial < final_chunck) { // As long as we do not have only one element execute
+            int mid_point = (initial + final_chunck) / 2; // Calculate the mid point
         
             mergeSort(arr, initial, mid_point); // Call Merge Sort to the left side
-            mergeSort(arr, mid_point+1, final); // Call Merge Sort to the right side
-            merge(arr, initial, mid_point, final); // Merge the array
+            mergeSort(arr, mid_point+1, final_chunck); // Call Merge Sort to the right side
+            merge(arr, initial, mid_point, final_chunck); // Merge the array
         }
      }
  
@@ -136,8 +136,8 @@ public:
     * @param order_function The function that defines how the ordering will be done
     */
     void test(std::string input, std::function<bool(T& first, T& last)> order_function) {
-        int* data = nullptr; // Pointer to the data fetched from the input
-        int data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
+        T* data = nullptr; // Pointer to the data fetched from the input
+        long data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
         if (data_size == 0) { // If no data on the file we stop the process
             if (data != nullptr) delete data; // Free the data buffer
             std::clog << "\033[1;30mInvalid input. Terminating\033[0m" << std::endl;

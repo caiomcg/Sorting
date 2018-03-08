@@ -120,8 +120,8 @@ public:
     * @param order_function The function that defines how the ordering will be done
     */
     void test(std::string input, std::function<bool(T& first, T& last)> order_function) {
-        int* data = nullptr; // Pointer to the data fetched from the input
-        int data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
+        T* data = nullptr; // Pointer to the data fetched from the input
+        std::size_t data_size = this->file_handler_->fetchInput(input, &data); // Fetch from the input
         
         if (data_size == 0) { // If no data on the file we stop the process
             if (data != nullptr) delete data; // Free the data buffer
