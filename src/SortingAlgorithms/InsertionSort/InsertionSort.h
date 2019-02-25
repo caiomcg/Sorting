@@ -55,7 +55,7 @@ public:
     void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
         this->startTimer(); // Stores the start time of the sorting
 
-        for (int i = 1, j = 0; i < size; i++) { // Iterate through the array
+        for (int i = 0, j = 0; i < size; i++) { // Iterate through the array
             T current_value = arr[i]; // Store the base value to be compared
         
             for (j = i - 1; j >= 0 && order_function(arr[j], current_value); j--) { // Do a reverse search and based on the user decision sort the array
