@@ -55,7 +55,7 @@ public:
     void sort(T* arr, const unsigned& size, std::function<bool(T& first, T& last)> order_function) override {
         this->startTimer();  // Stores the start time of the sorting
 
-        for (unsigned i = 0; i < size; i++) { // Iterate throug the array
+        for (unsigned i = 0; i < size - 1; i++) { // Iterate throug the array
             unsigned current_location = i; // Store the initial location of the biggest/smallest number
             for (unsigned j = i + 1; j < size; j++) { // Iterate from the picked position
                 if (order_function(arr[current_location], arr[j])) { // Verify if the best value should be swapped 
