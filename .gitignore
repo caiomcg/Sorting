@@ -33,3 +33,9 @@
 
 # Tests
 samples/*.out
+
+#folders
+
+bin/
+build/
+.vscode/
