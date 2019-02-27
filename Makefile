@@ -42,16 +42,12 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@echo "${Y}Compiling${N} ${B}$< ${N}"; $(CC) $(CFLAGS) $(INC) -c -o $@ $<
 
 test:
-	@echo "${B}Testing with 10 elements${N}"
-	@./bin/Sorting ./samples/input1.txt A
-	@echo "${B}Testing with 100 elements${N}"
-	@./bin/Sorting ./samples/input2.txt A
 	@echo "${B}Testing with 1000 elements${N}"
-	@./bin/Sorting ./samples/input3.txt A
+	@./bin/Sorting ./samples/num.1000.1.in A
 	@echo "${B}Testing with 10000 elements${N}"
-	@./bin/Sorting ./samples/input4.txt A
+	@./bin/Sorting ./samples/num.10000.1.in A
 	@echo "${B}Testing with 100000 elements${N}"
-	@./bin/Sorting ./samples/input5.txt A
+	@./bin/Sorting ./samples/num.100000.1.in A
 
 cleantest:
 	@echo "${R}Removing test results ${N}"; rm ./samples/*.out
