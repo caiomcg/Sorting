@@ -128,7 +128,7 @@ public:
         std::clog << "\033[1;35m\tProcessing time: " << this->getElapsed() << " seconds\033[0m" << std::endl;
 
         this->file_handler_->writeToOutput(input + ".heap.out", data, data_size); // Write to the output file
-        delete data; // Free the data
+        delete[] data; // Free the data
     }
 };
  

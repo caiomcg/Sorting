@@ -97,12 +97,12 @@ int main(int argc, char** argv) {
     if (algorithm == "H"  || algorithm == "A") { // Check if shoul use Heap Sort
         sorting_algorithms.push_back(new HeapSort<int64_t>{}); // Add the sorting algorithm to the vector
     }
-    // if (algorithm == "C"  || algorithm == "A") { // Check if shoul use Heap Sort
-    //     sorting_algorithms.push_back(new CountingSort<int64_t>{}); // Add the sorting algorithm to the vector
-    // }
-    // if (algorithm == "R"  || algorithm == "A") { // Check if shoul use Heap Sort
-    //     sorting_algorithms.push_back(new RadixSort<int64_t>{}); // Add the sorting algorithm to the vector
-    // }
+    if (algorithm == "C"  || algorithm == "A") { // Check if shoul use Heap Sort
+        sorting_algorithms.push_back(new CountingSort<int64_t>{}); // Add the sorting algorithm to the vector
+    }
+    if (algorithm == "R"  || algorithm == "A") { // Check if shoul use Heap Sort
+        sorting_algorithms.push_back(new RadixSort<int64_t>{}); // Add the sorting algorithm to the vector
+    }
 
     for (auto sort : sorting_algorithms) { // Iterate through the sorting algorithms
         sort->test(argv[1], [](int64_t& first, int64_t& last) -> bool { // Invoke the test: Sorting + Outputting to file + Estimated time spent
